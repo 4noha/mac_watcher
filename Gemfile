@@ -43,3 +43,7 @@ group :development, :test do
   gem 'spring'
 end
 
+# タイマー非同期処理用
+gem "delayed_job"
+gem "delayed_job_active_record"
+gem "daemons"
