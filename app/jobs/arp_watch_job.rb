@@ -2,7 +2,7 @@ class ArpWatchJob < ActiveJob::Base
   queue_as :default
 
   def perform(*args)
-    refresh_arp_table
+    self.refresh_arp_table
     arp_table = `arp -a`
     @ips={}
     arp_table.split(" ").each do |e|
@@ -15,7 +15,7 @@ class ArpWatchJob < ActiveJob::Base
     
     # todo DISTINCTでNamedList内のクライアントの最新IN/OUT履歴を見る
     # todo 前回のリストからのIN/OUTの記録
-    refresh_current_address_list
+    self.refresh_current_address_list
     
     ArpWatchJob.set(wait: 1.minutes).perform_later
   end
