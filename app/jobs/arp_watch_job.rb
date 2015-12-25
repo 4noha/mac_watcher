@@ -12,8 +12,15 @@ class ArpWatchJob < ActiveJob::Base
         @ips[@ip] = e
       end
     end
+    
     # todo DISTINCTでNamedList内のクライアントの最新IN/OUT履歴を見る
     # todo 前回のリストからのIN/OUTの記録
+    refresh_current_address_list
+    
+    ArpWatchJob.set(wait: 1.minutes).perform_later
+  end
+  
+  def refresh_current_address_list
     CurrentMacs.delete_all
     @ips.each_with_index do |(k, v), i|
       CurrentMacs.create do |m|
@@ -24,7 +31,6 @@ class ArpWatchJob < ActiveJob::Base
         m.name = named_client.name if named_client.present?
       end
     end
-    ArpWatchJob.set(wait: 1.minutes).perform_later
   end
   
   # 自分のそれっぽいIPアドレスの1-255にnmapしてarpテーブルを更新する
