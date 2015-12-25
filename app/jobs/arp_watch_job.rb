@@ -2,6 +2,7 @@ class ArpWatchJob < ActiveJob::Base
   queue_as :default
 
   def perform(*args)
+    refresh_arp_table
     arp_table = `arp -a`
     @ips={}
     arp_table.split(" ").each do |e|
@@ -24,5 +25,14 @@ class ArpWatchJob < ActiveJob::Base
       end
     end
     ArpWatchJob.set(wait: 1.minutes).perform_later
+  end
+  
+  # 自分のそれっぽいIPアドレスの1-255にnmapしてarpテーブルを更新する
+  def refresh_arp_table
+    udp = UDPSocket.new
+    udp.connect("128.0.0.0", 7)
+    adrs = Socket.unpack_sockaddr_in(udp.getsockname)[1]
+    udp.close
+    `nmap -sP #{adrs.split(/([0-9])*$/).first}1-255`
   end
 end
