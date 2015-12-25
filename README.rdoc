@@ -6,18 +6,30 @@ application up and running.
 Things you may want to cover:
 
 * Ruby version
+取り敢えず2.1.0
 
 * System dependencies
+サーバ起動前にActive Jobのジョブスケジューラのワーカープロセスを起動しておく必要がある
+bin/bundle exec rake jobs:work
+delayed_jobなのでredisは不要
 
 * Configuration
+app/jobs/arp_watch_job.rbに次のjobの起動時間がベタ書き(1分)してあるので
+1分で困るならそれ直す。
+arpコマンドを使っているので不服ならそれ直す。
 
 * Database creation
+SQLiteだからCreateとかいい
+bin/bundle exec rake db:migrate
 
 * Database initialization
+seedはねぇ、
 
 * How to run the test suite
+testもねぇ、車もそれほど走ってねぇ。
 
 * Services (job queues, cache servers, search engines, etc.)
+上に同じ
 
 * Deployment instructions
 
