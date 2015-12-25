@@ -11,6 +11,8 @@ class ArpWatchJob < ActiveJob::Base
         @ips[@ip] = e
       end
     end
+    # todo 前回のリストからのIN/OUTの記録
+    # todo CurrentMacs更新時にNamedListからNameを付与
     CurrentMacs.delete_all
     @ips.each_with_index do |(k, v), i|
       CurrentMacs.create do |m|
