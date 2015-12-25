@@ -1,0 +1,31 @@
+Current List<BR/>
+<TABLE>
+  <TH>
+	  <TD>IP Address</TD>
+	  <TD>MAC Address</TD>
+	  <TD>Client Name</TD>
+  </TH>
+  <% @current_client_list.each do |client| %>
+    <TR>
+	    <TD><%= client.ip_address %></TD>
+	    <TD><%= client.mac_address %></TD>
+	    <TD><%= client.name %></TD>
+    </TR>
+  <% end %>
+</TABLE><BR/>
+
+Named List<BR/>
+<TABLE>
+  <TH>
+	  <TD>Client Name</TD>
+	  <TD>MAC Address</TD>
+	  <TD>IP Address</TD>
+  </TH>
+  <% @current_client_list.each do |client| %>
+    <TR>
+	    <TD><%= client.name %></TD>
+	    <TD><%= client.mac_address %></TD>
+	    <TD><%= client.ip_address %></TD>
+    </TR>
+  <% end %>
+</TABLE>
