@@ -6,7 +6,7 @@ class TopsController < ApplicationController
   end
   
   def create
-  　#todo ip,macのユニーク
+    # todo ip,macのユニーク
     NamedList.create do |client|
       client.name = params[:named_list][:name]
       client.ip_address = params[:named_list][:ip_address]
