@@ -11,6 +11,7 @@ class ArpWatchJob < ActiveJob::Base
         @ips[@ip] = e
       end
     end
+    # todo DISTINCTでNamedList内のクライアントの最新IN/OUT履歴を見る
     # todo 前回のリストからのIN/OUTの記録
     CurrentMacs.delete_all
     @ips.each_with_index do |(k, v), i|
