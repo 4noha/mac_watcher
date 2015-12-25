@@ -39,6 +39,6 @@ class ArpWatchJob < ActiveJob::Base
     udp.connect("128.0.0.0", 7)
     adrs = Socket.unpack_sockaddr_in(udp.getsockname)[1]
     udp.close
-    `nmap -sP #{adrs.split(/([0-9])*$/).first}1-255`
+    `nmap -sP #{adrs.split(/([0-9])*$/).first}1-255 2> /dev/null`
   end
 end
