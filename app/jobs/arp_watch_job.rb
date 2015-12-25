@@ -4,20 +4,26 @@ class ArpWatchJob < ActiveJob::Base
   def perform(*args)
     self.refresh_arp_table
     arp_table = `arp -a`
-    @ips={}
-    arp_table.split(" ").each do |e|
-      ip_phrase = e.split(/^\(|\)$/)
-      @ip = ip_phrase[1] if 2 == ip_phrase.count
-      if 0 == (/^(([a-f]|[0-9]){2}:){5}([a-f]|[0-9]){2}$/ =~ e)
-        @ips[@ip] = e
-      end
-    end
+    @ips = self.scan_address_list
     
     # todo DISTINCTでNamedList内のクライアントの最新IN/OUT履歴を見る
     # todo 前回のリストからのIN/OUTの記録
     self.refresh_current_address_list
     
     ArpWatchJob.set(wait: 1.minutes).perform_later
+  end
+  
+  def scan_address_list
+    arp_table = `arp -a`
+    ips={}
+    arp_table.split(" ").each do |e|
+      ip_phrase = e.split(/^\(|\)$/)
+      ip = ip_phrase[1] if 2 == ip_phrase.count
+      if 0 == (/^(([a-f]|[0-9]){2}:){5}([a-f]|[0-9]){2}$/ =~ e)
+        ips[ip] = e
+      end
+    end
+    ips
   end
   
   def refresh_current_address_list
