@@ -21,7 +21,7 @@ Named List<BR/>
 	  <TD>MAC Address</TD>
 	  <TD>IP Address</TD>
   </TH>
-  <% @current_client_list.each do |client| %>
+  <% @named_list.each do |client| %>
     <TR>
 	    <TD><%= client.name %></TD>
 	    <TD><%= client.mac_address %></TD>
@@ -29,3 +29,10 @@ Named List<BR/>
     </TR>
   <% end %>
 </TABLE>
+
+<%= form_for(@client, url: tops_path) do |f| %>
+  <%= f.text_field :name %>
+  <%= f.text_field :mac_address %>
+  <%= f.text_field :ip_address %>
+  <%= f.submit %>
+<% end %>
