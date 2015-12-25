@@ -1,10 +1,10 @@
 Current List<BR/>
 <TABLE>
-  <TH>
-	  <TD>IP Address</TD>
-	  <TD>MAC Address</TD>
-	  <TD>Client Name</TD>
-  </TH>
+  <TR>
+    <TH>IP Address</TH>
+    <TH>MAC Address</TH>
+    <TH>Client Name</TH>
+  <TR>
   <% @current_client_list.each do |client| %>
     <TR>
 	    <TD><%= client.ip_address %></TD>
@@ -16,11 +16,11 @@ Current List<BR/>
 
 Named List<BR/>
 <TABLE>
-  <TH>
-	  <TD>Client Name</TD>
-	  <TD>MAC Address</TD>
-	  <TD>IP Address</TD>
-  </TH>
+  <TR>
+    <TH>Client Name</TH>
+    <TH>MAC Address</TH>
+    <TH>IP Address</TH>
+  <TR>
   <% @named_list.each do |client| %>
     <TR>
 	    <TD><%= client.name %></TD>
