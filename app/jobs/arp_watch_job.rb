@@ -12,13 +12,14 @@ class ArpWatchJob < ActiveJob::Base
       end
     end
     # todo 前回のリストからのIN/OUTの記録
-    # todo CurrentMacs更新時にNamedListからNameを付与
     CurrentMacs.delete_all
     @ips.each_with_index do |(k, v), i|
       CurrentMacs.create do |m|
         m.id = i+1
         m.ip_address = k
         m.mac_address = v
+        named_client = NamedList.where(["ip_address = ? OR mac_address = ?", k, v]).first
+        m.name = named_client.name if named_client.present?
       end
     end
     ArpWatchJob.set(wait: 1.minutes).perform_later
