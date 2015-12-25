@@ -7,9 +7,9 @@ Current List<BR/>
   <TR>
   <% @current_client_list.each do |client| %>
     <TR>
-	    <TD><%= client.ip_address %></TD>
-	    <TD><%= client.mac_address %></TD>
-	    <TD><%= client.name %></TD>
+	    <TD align="center"><%= client.ip_address %></TD>
+	    <TD align="center"><%= client.mac_address %></TD>
+	    <TD align="center"><%= client.name %></TD>
     </TR>
   <% end %>
 </TABLE><BR/>
@@ -23,9 +23,9 @@ Named List<BR/>
   <TR>
   <% @named_list.each do |client| %>
     <TR>
-	    <TD><%= client.name %></TD>
-	    <TD><%= client.mac_address %></TD>
-	    <TD><%= client.ip_address %></TD>
+	    <TD align="center"><%= client.name %></TD>
+	    <TD align="center"><%= client.mac_address %></TD>
+	    <TD align="center"><%= client.ip_address %></TD>
     </TR>
   <% end %>
 </TABLE>
