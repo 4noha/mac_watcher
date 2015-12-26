@@ -47,3 +47,5 @@ end
 gem "delayed_job"
 gem "delayed_job_active_record"
 gem "daemons"
+# サーバ変更
+gem "puma"
