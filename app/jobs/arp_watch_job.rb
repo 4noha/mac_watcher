@@ -2,9 +2,8 @@ class ArpWatchJob < ActiveJob::Base
   queue_as :default
 
   def perform(*args)
-    self.refresh_arp_table
-    arp_table = `arp -a`
-    @ips = self.scan_address_list
+    @ips = self.refresh_arp_table
+    @ips = @ips.merge(self.scan_address_list)
     
     # todo DISTINCTでNamedList内のクライアントの最新IN/OUT履歴を見る
     # todo 前回のリストからのIN/OUTの記録
@@ -42,10 +41,25 @@ class ArpWatchJob < ActiveJob::Base
   
   # 自分のそれっぽいIPアドレスの1-255にnmapしてarpテーブルを更新する
   def refresh_arp_table
+    ips = {}
+    
     udp = UDPSocket.new
     udp.connect("128.0.0.0", 7)
     adrs = Socket.unpack_sockaddr_in(udp.getsockname)[1]
     udp.close
-    `nmap -sP #{adrs.split(/([0-9])*$/).first}1-255 2> /dev/null`
+    
+    response = `nmap -sP #{adrs.split(/([0-9])*$/).first}1-255 2> /dev/null`
+    ip = ""
+    response.split(" ").each do |e|
+      if 0 == (e =~ /^(([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/)
+        ips[e] = nil
+        ip = e
+      end
+      if 0 == (e =~ /^(([A-F]|[0-9]){2}:){5}([A-F]|[0-9]){2}$/)
+        ips[ip] = e
+        puts ip + e
+      end
+    end
+    ips
   end
 end
