@@ -20,7 +20,7 @@ class ArpWatchJob < ActiveJob::Base
       ip_phrase = e.split(/^\(|\)$/) if 0 == (e =~ /^\((([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\)$/)
       ip = ip_phrase[1] if 2 == ip_phrase.count
       if 0 == (e =~ /^(([a-f]|[0-9]){2}:){5}([a-f]|[0-9]){2}$/)
-        ips[ip] = e
+        ips[ip] = e.upcase
       end
     end
     ips
