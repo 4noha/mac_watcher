@@ -1,39 +1,45 @@
 Current List<BR/>
 <TABLE>
   <TR>
-    <TH>IP Address</TH>
-    <TH>MAC Address</TH>
-    <TH>Client Name</TH>
+      <% if 0 == (request.ip =~ /^192.168.([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/) %>
+        <TH>IP Address</TH>
+        <TH>MAC Address</TH>
+      <% end %>
+      <TH>Client Name</TH>
   <TR>
   <% @current_client_list.each do |client| %>
     <TR>
-	    <TD align="center"><%= client.ip_address %></TD>
-	    <TD align="center"><%= client.mac_address %></TD>
-	    <TD align="center"><%= client.name %></TD>
+      <% if 0 == (request.ip =~ /^192.168.([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/) %>
+	      <TD align="center"><%= client.ip_address %></TD>
+        <TD align="center"><%= client.mac_address %></TD>
+      <% end %>
+      <TD align="center"><%= client.name %></TD>
     </TR>
   <% end %>
 </TABLE><BR/>
 
-Named List<BR/>
-<TABLE>
-  <TR>
-    <TH>Client Name</TH>
-    <TH>MAC Address</TH>
-    <TH>IP Address</TH>
-  <TR>
-  <% @named_list.each do |client| %>
+<% if 0 == (request.ip =~ /^192.168.([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/) %>
+  Named List<BR/>
+  <TABLE>
     <TR>
-	    <TD align="center"><%= client.name %></TD>
-	    <TD align="center"><%= client.mac_address %></TD>
-	    <TD align="center"><%= client.ip_address %></TD>
-    </TR>
+      <TH>Client Name</TH>
+      <TH>MAC Address</TH>
+      <TH>IP Address</TH>
+    <TR>
+    <% @named_list.each do |client| %>
+      <TR>
+        <TD align="center"><%= client.name %></TD>
+        <TD align="center"><%= client.mac_address %></TD>
+        <TD align="center"><%= client.ip_address %></TD>
+      </TR>
+    <% end %>
+  </TABLE>
+  
+  <% #todo 削除機能 %>
+  <%= form_for(@client, url: tops_path) do |f| %>
+    <%= f.text_field :name %>
+    <%= f.text_field :mac_address %>
+    <%= f.text_field :ip_address %>
+    <%= f.submit %>
   <% end %>
-</TABLE>
-
-<% #todo 削除機能 %>
-<%= form_for(@client, url: tops_path) do |f| %>
-  <%= f.text_field :name %>
-  <%= f.text_field :mac_address %>
-  <%= f.text_field :ip_address %>
-  <%= f.submit %>
 <% end %>
